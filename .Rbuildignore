@@ -4,3 +4,5 @@ LICENSE
 ^appveyor\.yml$
 ^tic\.R$
 .gitignore
+^.*\.Rproj$
+^\.Rproj\.user$

@@ -18,7 +18,6 @@
 #' @importFrom stats predict
 predict.dsm <- function(object, newdata=NULL, off.set=NULL,
                         type="response", ...){
-
   if("gamm" %in% class(object)){
     object <- object$gam
   }
@@ -26,6 +25,9 @@ predict.dsm <- function(object, newdata=NULL, off.set=NULL,
   # if there is no newdata, then use the data stored in the model object
   if(is.null(newdata)){
     newdata <- object$data
+    if(is.null(off.set)){
+      off.set <- 1
+    }
   }else{
 
     # If we don't have a density model, then set the offset.
@@ -78,7 +80,7 @@ predict.dsm <- function(object, newdata=NULL, off.set=NULL,
     # that the standard errors are okay too
     if(type=="response" & (is.null(se.fit) || !se.fit)){
       result <- result*off.set
-    }else if(type=="response" & se.fit){
+    }else if(type=="response" & (!is.null(se.fit) && se.fit)){
       result$fit <- result$fit*off.set
       result$se.fit <- result$se.fit*off.set
     }
